@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="23c8573c-712e-4e20-8ee8-0ebd7467e4ce" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ProjectId" id="1ZbefiJzC5K7mx6iu6fKKTNHSOq" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../myblog" />
+    <property name="settings.editor.selected.configurable" value="preferences.remoteExternalTools" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/result" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.mygui">
+    <configuration name="mygui" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="forpi" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/mygui.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="mytrace" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="forpi" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/mytrace.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.mygui" />
+        <item itemvalue="Python.mytrace" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="23c8573c-712e-4e20-8ee8-0ebd7467e4ce" name="Default Changelist" comment="" />
+      <created>1585112326932</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1585112326932</updated>
+      <workItem from="1585112345579" duration="3057000" />
+      <workItem from="1585123639060" duration="2502000" />
+      <workItem from="1586010827785" duration="357000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="107" y="40" width="802" height="677" key="#Deployment" timestamp="1586010978931">
+      <screen x="0" y="0" width="1024" height="740" />
+    </state>
+    <state x="107" y="40" width="802" height="677" key="#Deployment/0.0.1024.740@0.0.1024.740" timestamp="1586010978931" />
+    <state x="107" y="40" width="802" height="677" key="#Servers" timestamp="1586010942672">
+      <screen x="0" y="0" width="1024" height="740" />
+    </state>
+    <state x="107" y="40" width="802" height="677" key="#Servers/0.0.1024.740@0.0.1024.740" timestamp="1586010942672" />
+    <state x="0" y="40" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1585112798170">
+      <screen x="0" y="36" width="1024" height="732" />
+    </state>
+    <state x="0" y="40" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.36.1024.732@0.36.1024.732" timestamp="1585112798170" />
+    <state x="255" y="131" width="526" height="501" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1585124386998">
+      <screen x="0" y="36" width="1024" height="732" />
+    </state>
+    <state x="255" y="131" width="526" height="501" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.36.1024.732@0.36.1024.732" timestamp="1585124386998" />
+    <state x="284" y="139" width="468" height="451" key="#com.intellij.tools.ToolEditorDialog" timestamp="1586011163745">
+      <screen x="0" y="0" width="1024" height="740" />
+    </state>
+    <state x="284" y="139" width="468" height="451" key="#com.intellij.tools.ToolEditorDialog/0.0.1024.740@0.0.1024.740" timestamp="1586011163745" />
+    <state x="301" y="112" width="426" height="484" key="FileChooserDialogImpl" timestamp="1586011187150">
+      <screen x="0" y="0" width="1024" height="740" />
+    </state>
+    <state x="301" y="112" width="426" height="484" key="FileChooserDialogImpl/0.0.1024.740@0.0.1024.740" timestamp="1586011187150" />
+    <state width="958" height="181" key="GridCell.Tab.0.bottom" timestamp="1585126148921">
+      <screen x="0" y="36" width="1024" height="732" />
+    </state>
+    <state width="958" height="181" key="GridCell.Tab.0.bottom/0.36.1024.732@0.36.1024.732" timestamp="1585126148921" />
+    <state width="958" height="181" key="GridCell.Tab.0.center" timestamp="1585126148920">
+      <screen x="0" y="36" width="1024" height="732" />
+    </state>
+    <state width="958" height="181" key="GridCell.Tab.0.center/0.36.1024.732@0.36.1024.732" timestamp="1585126148920" />
+    <state width="958" height="181" key="GridCell.Tab.0.left" timestamp="1585126148917">
+      <screen x="0" y="36" width="1024" height="732" />
+    </state>
+    <state width="958" height="181" key="GridCell.Tab.0.left/0.36.1024.732@0.36.1024.732" timestamp="1585126148917" />
+    <state width="958" height="181" key="GridCell.Tab.0.right" timestamp="1585126148921">
+      <screen x="0" y="36" width="1024" height="732" />
+    </state>
+    <state width="958" height="181" key="GridCell.Tab.0.right/0.36.1024.732@0.36.1024.732" timestamp="1585126148921" />
+    <state x="26" y="0" key="SettingsEditor" timestamp="1586011166367">
+      <screen x="0" y="0" width="1024" height="740" />
+    </state>
+    <state x="26" y="0" key="SettingsEditor/0.0.1024.740@0.0.1024.740" timestamp="1586011166367" />
+    <state x="26" y="36" key="SettingsEditor/0.36.1024.732@0.36.1024.732" timestamp="1585112956397" />
+    <state x="189" y="177" width="645" height="363" key="com.intellij.ide.util.TipDialog" timestamp="1586010847818">
+      <screen x="0" y="0" width="1024" height="740" />
+    </state>
+    <state x="189" y="177" key="com.intellij.ide.util.TipDialog/0.0.1024.740@0.0.1024.740" timestamp="1586010847818" />
+    <state x="189" y="211" width="645" height="363" key="com.intellij.ide.util.TipDialog/0.36.1024.732@0.36.1024.732" timestamp="1585123640131" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/forpi$mygui.coverage" NAME="mygui Coverage Results" MODIFIED="1585126089119" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/forpi$mytrace.coverage" NAME="mytrace Coverage Results" MODIFIED="1585124070807" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>
