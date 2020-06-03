@@ -91,11 +91,12 @@ if __name__ == "__main__":
     #ping测试列表
     pinglist = ["www.baidu.com","www.taobao.com","www.jd.com","www.google.com","111.11.11.11","8.8.8.8"]
     #开启一个ping测线程 间隔60sping一次
-    pingthread1 = pingThread( pinglist, name = "任务-1")
-    pingthread1.start()
+    #pingthread1 = pingThread( pinglist, name = "任务-1")
+    #pingthread1.start()
     #开启一个测速线程 间隔900s测速一次
-    speedtestthread1 = speedtestThread(nodeid = 17223, name = "任务-2")
-    speedtestthread1.start()
+    #speedtestthread1 = speedtestThread(nodeid = 17223, name = "任务-2")
+    #speedtestthread1.start()
     #pingthread1.join()
     #ping(pinglist)
+    res,unans = mytrace.get_trace_result("www.speedtest.net")
     #myspdtest()

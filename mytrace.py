@@ -10,7 +10,7 @@ logging.getLogger("scapy.runtine").setLevel(logging.ERROR)
 from scapy.as_resolvers import AS_resolver_radb 
 from scapy.all import traceroute
 
-def get_trace_result(domain,dport=[80,443], timeout=2, minttl=1, maxttl=30):
+def get_trace_result(domain,dport=[80,443], timeout=10, minttl=1, maxttl=30):
     tempstdout=sys.stdout
     file = open("result/traceresult.txt", "w+")
     sys.stdout = file
