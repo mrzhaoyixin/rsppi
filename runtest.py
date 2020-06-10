@@ -27,16 +27,24 @@ def get_ping_result(ip_address, pcount="8", psize="32",timeout = "20"):
         receivepkg = searchresult.group(0).split()[0]
         if int(receivepkg) > 0:
             rtt = out.split("\n")[-2]
-            print(rtt)
-            rttlist = rtt.split()[-2].split("/")
-            min_time = rttlist[0]
-            max_time = rttlist[1]
-            avg_time = rttlist[2]
-            lossrate = 1-int(receivepkg)/int(pcount)
-            domain = out.split("\n")[0].split()[1]
-            targethost = out.split("\n")[0].split()[2][1:-1]
-            #目标主机 最小时延 最大时延 平均时延 收到包数量 丢包率 状态码
-            return [ip_address,domain, targethost, min_time, max_time, avg_time, receivepkg, lossrate, 0]
+            print("rtt:",rtt)
+            r = rtt.split()
+            if r[-2] is "pipe":
+                rttlist = r[-4].split("/")
+            rttlist = r[-2].split("/")
+            if len(rttlist)>2:
+                min_time = rttlist[0]
+                max_time = rttlist[1]
+                avg_time = rttlist[2]
+                lossrate = 1-int(receivepkg)/int(pcount)
+                domain = out.split("\n")[0].split()[1]
+                targethost = out.split("\n")[0].split()[2][1:-1]
+                #目标主机 最小时延 最大时延 平均时延 收到包数量 丢包率 状态码
+                return [ip_address,domain, targethost, min_time, max_time, avg_time, receivepkg, lossrate, 0]
+            else:
+                targethost = out.split("\n")[0].split()[2][1:-1]
+                print("rttlist error:",rttlist)
+                return([ip_address, targethost, targethost, "-",  "-",  "-",  "-",  "-", -1])
         else:
             print('网络不通，目标服务器不可达！')
             targethost = out.split("\n")[0].split()[2][1:-1]
@@ -47,21 +55,27 @@ def get_ping_result(ip_address, pcount="8", psize="32",timeout = "20"):
 def get_webtest_result(weburl):
     testresult=[]
     for url in weburl:
-        chrome_options = Options()
-        chrome_options.add_argument('--no-sandbox')
-        chrome_options.add_argument('--disable-dev-shm-usage')
-        chrome_options.add_argument('--headless')
-        driver = webdriver.Chrome(chrome_options = chrome_options)
-        start = time.time()
-        driver.get(url)
-        elapse = time.time()-start
-        result = driver.execute_script("""
+        try:
+            
+            chrome_options = Options()
+            chrome_options.add_argument('--no-sandbox')
+            chrome_options.add_argument('--disable-dev-shm-usage')
+            chrome_options.add_argument('--headless')
+            #chrome_options.add_argument('blink-settings=imagesEnabled=false')
+            #chrome_options.add_argument('--disable-gpu')
+            driver = webdriver.Chrome(chrome_options = chrome_options)
+            start = time.time()
+            driver.get(url)
+            elapse = time.time()-start
+            result = driver.execute_script("""
                    let mytiming = window.performance.timing;
                    return mytiming;
                    """)
-        testresult.append(result)
-        driver.quit()
-        print(testresult)
+            testresult.append(result)
+            driver.quit()
+        except Exception as e:
+            print("web test error:",e)
+    print(testresult)
     return testresult
         
 
