@@ -21,6 +21,7 @@ class pingThread (threading.Thread):
             print(onenetpr)
     def run(self):
         while True:
+            print("pingtest", threading.current_thread().name)
             self.ping(self.pinglist)
             time.sleep(self.indenttime)
 
@@ -37,6 +38,7 @@ class speedtestThread (threading.Thread):
             onenet.send_to_onenet(spdj,"spdtestresult")
     def run(self):
         while True:
+            
             self.myspdtest()
             time.sleep(self.indenttime)
 
@@ -81,6 +83,7 @@ class webtestThread(threading.Thread):
             onenet.send_to_onenet(web2onenetlist,"webtestresult")
     def run(self):
         while True:
+            print("webtest", threading.current_thread().name)
             self.mywebtest()
             time.sleep(self.indenttime)
 
