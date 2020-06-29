@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 configure_ping = {
     "taskname":"PingTest",
-    "nodename":"zyx",
+    "nodename":"zyx_lt",
     "nodebandwidth":"200",
     "indenttime":60
 }
@@ -11,7 +11,7 @@ configure_deveice = {
 }
 configure_speedtest = {
     "taskname":"SpeedTest",
-    "nodename":"zyx",
+    "nodename":"zyx_lt",
     #石家庄移动节点是17223，自动获取可以填None
     #"nodeID":None,
     "nodeID":"17223",

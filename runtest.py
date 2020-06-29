@@ -53,35 +53,7 @@ def get_ping_result(ip_address, pcount="8", psize="32",timeout = "20"):
         print("地址输入有错误")
         return [ip_address, ip_address, ip_address, "-",  "-",  "-",  "-",  "-", -2]
 def get_webtest_result(weburl):
-    testresult=[]        
-    try:
-        chrome_options = Options()
-        chrome_options.add_argument('--no-sandbox')
-        chrome_options.add_argument('--disable-dev-shm-usage')
-        chrome_options.add_argument('--headless')
-        chrome_options.add_argument("--remote-debugging-port=9222")
-        chrome_options.add_argument("–incognito")
-        #chrome_options.add_argument('blink-settings=imagesEnabled=false')
-        chrome_options.add_argument('--disable-gpu')
-        driver = webdriver.Chrome(executable_path = '/usr/bin/chromedriver', chrome_options = chrome_options)
-    except Exception as e:
-        print("chrome_driver error:",e)
-    try:    
-        for url in weburl:
-            start = time.time()
-            driver.get(url)
-            elapse = time.time()-start
-            result = driver.execute_script("""
-                   let mytiming = window.performance.timing;
-                   return mytiming;
-                   """)
-            testresult.append(result)
-        
-    except Exception as e:
-        print("web test error:",e)
-    print(testresult)
-    driver.quit()
-    return testresult
+    pass
         
 
 def to_json(ping_result = []):
