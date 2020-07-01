@@ -103,9 +103,9 @@ class webtestThread(threading.Thread):
             chrome_options.add_argument('--disable-dev-shm-usage')
             chrome_options.add_argument('--headless')
             #chrome_options.add_argument("--remote-debugging-port=9222")
-            chrome_options.add_argument("–incognito")
+            chrome_options.add_argument("–-incognito")
             #chrome_options.add_argument('blink-settings=imagesEnabled=false')
-            #chrome_options.add_argument('--disable-gpu')
+            chrome_options.add_argument('--disable-gpu')
             global driver
             driver = webdriver.Chrome(executable_path = '/usr/bin/chromedriver', chrome_options = chrome_options)
         except Exception as e:
@@ -131,6 +131,7 @@ class webtestThread(threading.Thread):
                         s = ','.join(web_resultlist)+'\n'
                         print(s)
                         webfile.write(s)
+                        continue
                 web2onenetlist=[]
                 calculate = {}
                 web2onenet = {}
