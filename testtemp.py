@@ -1,19 +1,21 @@
 import multiprocessing,time,threading,re,subprocess
-class Pingclass():
+class Pingclass(threading.Thread):
     def __init__(self):
-        pass
+        threading.Thread.__init__(self)
+        
     def write_file(self,result):
+        print('zhaonb')
         try:
             s = ','.join(result)+'\n'
             #获取当前日期
             cudate = str(time.strftime("%Y-%m-%d", time.localtime()))
-            with open('ping_'+cudate,'a') as f:
+            with open('ping_'+'1111','a') as f:
                 f.write(s)
         except Exception as e:
             print(e)
         
     def process(self,args,pcount="10", psize="32",timeout = "20"):
-        #print("pingtest", threading.current_thread().name)
+        print("pingtest", threading.current_thread().name)
         try:
             ip_address=args
             #print('get a addr ',ip_address,'remain ',self.q.qsize())
@@ -67,13 +69,21 @@ class Pingclass():
                 return [ip_address, ip_address, ip_address, "-",  "-",  "-",  "-",  "-", 'address error']
         except Exception as e:
             print(e)
-            
+    def run(self):
+        print('bange')
+        pool = multiprocessing.Pool(processes = 100)
+        with open('pinglist.txt','r') as tasks:
+            for t in tasks:
+                #self.process(t[:-1])
+                #break
+                pool.apply_async(self.process, tuple(t[:-1]),callback=self.write_file)
+                print('aaa')
+                print(t)
+                print('bbb')
+                break
+            pool.close()
+            pool.join()
 
 if __name__ == '__main__':
-    p = Pingclass()
-    pool = multiprocessing.Pool(processes = 100)
-    with open('pinglist.txt','r') as tasks:
-        for t in tasks:
-            pool.apply_async(p.process, (t[:-1], ),callback=p.write_file)
-        pool.close()
-        pool.join()
+    wtt = Pingclass()
+    wtt.start()

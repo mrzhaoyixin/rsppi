@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-import runtest, mytrace,speedtest,time,os,sys,json,threading,requests,onenet,config,subprocess,re,multiprocessing
+import runtest, mytrace,speedtest,time,os,sys,json,threading,requests,onenet,config,subprocess,re,multiprocessing,psutil
 from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
 from queue import Queue  
@@ -113,9 +113,14 @@ class webtestThread(threading.Thread):
 
     def mywebtest(self):
         #print('current Threading:',threading.current_thread().name)
+        
         if os.path.exists("result/webtest.json"):
-            f=open('result/webtest.json', "a") 
+            f=open('result/webtest.json', "a")
+            cudate = str(time.strftime("%Y-%m-%d", time.localtime()))
             for url in self.urllist:
+                print(" CPU:"+str(psutil.cpu_percent(1))+"%")
+                phymem = psutil.virtual_memory()
+                print("Memory: %5s%% %6s/%s"%(phymem.percent,str(int(phymem.used/1024/1024))+"M",str(int(phymem.total/1024/1024))+"M"))
                 t = runtest.timestamp()
                 try:
                     driver.get(url)
@@ -123,7 +128,11 @@ class webtestThread(threading.Thread):
                            let mytiming = window.performance.timing;
                            return mytiming;
                            """)
+                    print('delete cookies')
+                    driver.delete_all_cookies()
+                    
                 except Exception as e:
+
                     print('webtest error',e)
                     with open('result/webtest_'+cudate,'a') as webfile:
                         resultlist = [url,url[7:],'-','-',config.configure_speedtest.get('nodename'),t]
@@ -158,7 +167,6 @@ class webtestThread(threading.Thread):
                 web2onenet["timestamp"] = t
                 finaldict = {**calculate,**web2onenet}
                 web2onenetlist.append(finaldict)
-                cudate = str(time.strftime("%Y-%m-%d", time.localtime()))
                 with open('result/webtest_'+cudate,'a') as webfile:
                     for i in web2onenetlist:
                         #url  域名 总时间 http响应时间 节点名称 
@@ -180,6 +188,7 @@ class webtestThread(threading.Thread):
             time.sleep(self.indenttime)
             count = count-1
             print(count,'times left')
+            
         driver.quit()
 if __name__ == "__main__":
     #ping测试列表
@@ -195,16 +204,18 @@ if __name__ == "__main__":
     wtt = webtestThread(weblist)
     wtt.start()
 
-    pingcount = 50
+    pingcount = 48
+    pool = multiprocessing.Pool(processes = 100)
     while pingcount>0:
         ping = pingClass(pinglist)
-        pool = multiprocessing.Pool(processes = 100)
         for q in ping.pinglist:
             pool.apply_async(ping.get_ping_result, (q, ),callback=ping.write_file)
         pool.close()
         pool.join()
-        time.sleep(300)
+        time.sleep(1800)
         pingcount = pingcount-1
+
+     
 
     #开启一个测速线程 
     #speedtestthread1 = speedtestThread()
