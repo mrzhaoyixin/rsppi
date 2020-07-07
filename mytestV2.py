@@ -1,9 +1,11 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-import runtest, mytrace,speedtest,time,os,sys,json,threading,requests,onenet,config,subprocess,re,multiprocessing,psutil
-from selenium.webdriver.chrome.options import Options
+import mytrace,speedtest,time,os,sys,json,threading,requests,config,subprocess,re,multiprocessing,psutil,myutils
+from selenium.webdriver.firefox.options import Options
 from selenium import webdriver
-from queue import Queue  
+from queue import Queue
+
+
 class pingClass():
     def __init__(self, pinglist, indenttime = 10):
         self.pinglist = pinglist
@@ -12,7 +14,7 @@ class pingClass():
     def get_ping_result(self, q, pcount="10", psize="32",timeout = "10"):
         try:
             ip_address=q
-            timestamp = runtest.timestamp()
+            timestamp = myutils.timestamp()
             p = subprocess.Popen(["ping", "-c", str(pcount), "-s", str(psize),"-W", str(timeout), ip_address], stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE, shell = False)
             out = p.stdout.read().decode('utf-8')
             reg_receive = '[0-9]* received'
@@ -22,7 +24,7 @@ class pingClass():
                 if int(receivepkg) > 0:
                     rtt = out.split("\n")[-2]
                     r = rtt.split()
-                    if r[-2] is "pipe":
+                    if r[-2] == "pipe":
                         rttlist = r[-4].split("/")
                     rttlist = r[-2].split("/")
                     if len(rttlist)>2:
@@ -37,8 +39,8 @@ class pingClass():
                         return [ip_address,domain, targethost, min_time, max_time, avg_time,  lossrate,'icmp_success', timestamp, self.nodename]
                     else:
                         targethost = out.split("\n")[0].split()[2][1:-1]
-                        print("rttlist error:",rttlist)
-                        return([ip_address, targethost, targethost, "-",  "-",  "-", "-", 'network_fail'])
+                        print("networkfail error:",out)
+                        return([ip_address, targethost, targethost, "-1",  "-1",  "-1", "-1", 'network_fail'])
                 else:
                     #print('网络不通，目标服务器不可达！')
                     targethost = out.split("\n")[0].split()[2][1:-1]
@@ -48,16 +50,19 @@ class pingClass():
                     return tcpreslist
             else:
                 #print("地址输入有错误",out)
-                return [ip_address, ip_address, ip_address, "-",  "-",  "-",  "-", 'address_error', timestamp, self.nodename]
+                return [ip_address, ip_address, ip_address, "-1",  "-1",  "-1",  "-1", 'address_error', timestamp, self.nodename]
         except Exception as e:
             print(e)
     def write_file(self, result):
-        resultlist = [str(x) for x in result]
-        s = ','.join(resultlist)+'\n'
-        #获取当前日期
-        cudate = str(time.strftime("%Y-%m-%d", time.localtime()))
-        with open('result/ping_'+cudate,'a') as f:
-            f.write(s)
+        if result is not None:
+            resultlist = [str(x) for x in result]
+            s = ','.join(resultlist)+'\n'
+            #获取当前日期
+            cudate = str(time.strftime("%Y-%m-%d", time.localtime()))
+            with open('result/ping_'+cudate,'a') as f:
+                f.write(s)
+        else:
+            print('write file error',result)
     def tcping(self,ipaddr):
         try:
             tcpp = subprocess.Popen(["tcping", "-c", '10', "-t", '10', ipaddr], stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE, shell = False)
@@ -71,7 +76,7 @@ class pingClass():
             lossrate = 1-int(outlist[-3].split(' ')[2])/int(outlist[-3].split(' ')[0])
             if lossrate != 1:
                 return [min_time,avg_time,max_time,lossrate,'tcping_success']
-            return ['-','-','-','-','network_fail']
+            return ['-1','-1','-1','-1','network_fail']
         except Exception as e:
             print('tcping error',e)
 class speedtestThread (threading.Thread):
@@ -79,12 +84,21 @@ class speedtestThread (threading.Thread):
         threading.Thread.__init__(self)
         self.nodeid = nodeid
         self.indenttime = indenttime
+    def get_speedtest_result(nodeid):
+        if nodeid is None:
+            p = subprocess.Popen(["speedtest",  "--format=json"], stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE, shell = False)
+            out = p.stdout.read().decode('utf-8')
+            return out
+        else:
+            p = subprocess.Popen(["speedtest", "--server-id", str(nodeid), "--format=json"], stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE, shell = False)
+            out = p.stdout.read().decode('utf-8')
+            return out
     def myspdtest(self):
         if os.path.exists("result/speedtest.json"):
             f=open('result/speedtest.json', "a")
-            t = runtest.timestamp()
-            spdj = json.loads(runtest.get_speedtest_result(self.nodeid))
-            onenet.send_to_onenet(spdj,"spdtestresult")
+            t = myutils.timestamp()
+            spdj = json.loads(self.get_speedtest_result(self.nodeid))
+            myutils.send_to_onenet(spdj,"spdtestresult")
     def run(self):
         while True:
             self.myspdtest()
@@ -95,25 +109,28 @@ class webtestThread(threading.Thread):
         threading.Thread.__init__(self)
         self.indenttime = indenttime
         self.urllist = urllist
-        #初始化chromedirver
+        #初始化webdirver
         try:
-            global chrome_options
-            chrome_options = Options()
-            chrome_options.add_argument('--no-sandbox')
-            chrome_options.add_argument('--disable-dev-shm-usage')
-            chrome_options.add_argument('--headless')
-            #chrome_options.add_argument("--remote-debugging-port=9222")
-            chrome_options.add_argument("–-incognito")
-            #chrome_options.add_argument('blink-settings=imagesEnabled=false')
-            chrome_options.add_argument('--disable-gpu')
+            self.deleteCache()
+            global options
+            options = Options()
+            options.add_argument('--no-sandbox')
+            options.add_argument('--disable-dev-shm-usage')
+            options.add_argument('--headless')
+            #options.add_argument("--remote-debugging-port=9222")
+            options.add_argument("–-incognito")
+            #options.add_argument('blink-settings=imagesEnabled=false')
+            options.add_argument('--disable-gpu')
             global driver
-            driver = webdriver.Chrome(executable_path = '/usr/bin/chromedriver', chrome_options = chrome_options)
+            driver = webdriver.Chrome(executable_path = '/usr/bin/geckodriver', options = options)
         except Exception as e:
-            print("chrome_driver init error:",e)
-
+            print("webdriver init error:",e)
+    def deleteCache(self):
+        #删除浏览器缓存
+        subprocess.Popen(["rm", "-rf", '/tmp/.org.chromium.Chromium*'], stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE, shell = False)
+        subprocess.Popen(["rm", "-rf", '/tmp/rust_mozprofile.*'], stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE, shell = False)
     def mywebtest(self):
         #print('current Threading:',threading.current_thread().name)
-        
         if os.path.exists("result/webtest.json"):
             f=open('result/webtest.json', "a")
             cudate = str(time.strftime("%Y-%m-%d", time.localtime()))
@@ -121,7 +138,7 @@ class webtestThread(threading.Thread):
                 print(" CPU:"+str(psutil.cpu_percent(1))+"%")
                 phymem = psutil.virtual_memory()
                 print("Memory: %5s%% %6s/%s"%(phymem.percent,str(int(phymem.used/1024/1024))+"M",str(int(phymem.total/1024/1024))+"M"))
-                t = runtest.timestamp()
+                t = myutils.timestamp()
                 try:
                     driver.get(url)
                     result = driver.execute_script("""
@@ -176,7 +193,7 @@ class webtestThread(threading.Thread):
                         print(s)
                         webfile.write(s)
             
-            #onenet.send_to_onenet(web2onenetlist,"webtestresult")
+            #myutils.send_to_onenet(web2onenetlist,"webtestresult")
     def run(self):
         #测试轮数
         count = 20
@@ -186,13 +203,12 @@ class webtestThread(threading.Thread):
             #t1 = threading.Thread(target=self.mywebtest())
             #t1.start()
             time.sleep(self.indenttime)
-            count = count-1
+            #count = count-1
+            self.deleteCache()
             print(count,'times left')
             
         driver.quit()
 if __name__ == "__main__":
-    #ping测试列表
-    #pinglist = ["www.baidu.com","www.taobao.com","www.jd.com","www.baidu.com","www.taobao.com","www.jd.com","www.baidu.com","www.taobao.com","www.jd.com","www.baidu.com","www.taobao.com","www.jd.com"]
     #开启一轮多进程ping测
     #测试列表
     pinglist = []
@@ -205,15 +221,15 @@ if __name__ == "__main__":
     wtt.start()
 
     pingcount = 48
-    pool = multiprocessing.Pool(processes = 100)
+    ping = pingClass(pinglist)
     while pingcount>0:
-        ping = pingClass(pinglist)
+        pool = multiprocessing.Pool(processes = 100)
         for q in ping.pinglist:
             pool.apply_async(ping.get_ping_result, (q, ),callback=ping.write_file)
         pool.close()
         pool.join()
         time.sleep(1800)
-        pingcount = pingcount-1
+        #pingcount = pingcount-1
 
      
 
